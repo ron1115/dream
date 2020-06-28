@@ -20,7 +20,10 @@ class Toolbox{
   }
   
   void open(Player player){
-    if(player.x >= x && player.x < x+w && player.y == y){
+    if(player.x >= x && player.x < x+w && (player.y == y || player.y == y-SIZE*2)){
+      if(openState == false)  openState = true;    
+      else openState = false;
+    }else if((player.x == x-SIZE||player.x == x+2*SIZE) && player.y == y-SIZE){
       if(openState == false)  openState = true;    
       else openState = false;
     }

@@ -3,12 +3,12 @@ class Energy{
   PImage img1, img2, img3;;
   float x, y, arrowX, arrowY;
   float boundaryL, boundaryR;
-  float rangeL, rangeR;
-  float speed = 10;
-  float press;
-  final int addScore = 3;
-  final int reduceScore = -5;
-  final int BLOCK = 50;
+  float rangeLeft, rangeRight;
+  float speed = 15;
+  float press = 0;
+  final int addScore = 5;
+  final int reduceScore = 10;
+  final int SIZE = 50;
   
   Energy(){
     imageMode(CENTER);
@@ -17,17 +17,17 @@ class Energy{
     img3 = handImg;
     x = width/2;
     y = 150;
-    boundaryL = (width/2)-BLOCK*5;
-    boundaryR = (width/2)+BLOCK*5;
-    rangeL = (width/2)-BLOCK*1.5;
-    rangeR = (width/2)+BLOCK*1.5;
+    boundaryL = (width/2)-SIZE*5;
+    boundaryR = (width/2)+SIZE*5;
+    rangeLeft = (width/2)-SIZE*1.5;
+    rangeRight = (width/2)+SIZE*1.5;
     arrowX = floor(random(boundaryL,boundaryR));
-    arrowY = y+BLOCK;
+    arrowY = y+SIZE;
   }
   
   void arrowMove(){
     arrowX += speed;
-    if(arrowX<=(width/2)-BLOCK*5 || arrowX>=(width/2)+BLOCK*5){
+    if(arrowX<(width/2)-SIZE*5 || arrowX>(width/2)+SIZE*5){
       speed *= -1;
     }
   }
@@ -35,7 +35,7 @@ class Energy{
   void display(){
     image(img2, arrowX, arrowY);
     image(img1, x, y);
-    image(img3 , arrowX+BLOCK/2, height-BLOCK);
+    image(img3 , arrowX+SIZE/2, height-SIZE);
     
   }
   
@@ -47,8 +47,34 @@ class Energy{
     }
   }
   
+  void speedUp(){
+    if(speed<0){ // go left
+      if(press > 60){
+        speed = -15;
+      }
+      if(press > 160){
+        speed = -20;
+      }
+      if(press > 200){
+        speed = -25;
+      }
+    }
+    
+    if(speed>0){ // go right
+      if(press > 60){
+        speed = 15;
+      }
+      if(press>160){
+        speed = 20;
+      }
+      if(press>200){
+        speed = 25;
+      }
+    }
+  }
+  
   boolean isHit(){
-    return arrowX<rangeR && arrowX>rangeL;
+    return arrowX<rangeRight && arrowX>rangeLeft;
   }
   
 }

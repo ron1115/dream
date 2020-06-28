@@ -1,10 +1,8 @@
 class Assistant{
   float x, y, w = SIZE, h = SIZE*2;
+  final float INIT_X = 7*SIZE, INIT_Y = 4*SIZE;
   int col, row;
   PImage img;
-  
-  float speed = 2f;
-  int direction;
   
   boolean upState = false;
   boolean downState = false;
@@ -13,78 +11,74 @@ class Assistant{
     
   int moveDirection = 0;
   int moveTimer = 0;
-  int moveDuration = 5;
+  int moveDuration = 10;
   
-  Assistant(float x, float y){
-    this.x = x * SIZE;
-    this.y = y * SIZE;
+  int frame = 10;
+  int imgform = 0;
+  
+  Assistant(){
+    x = INIT_X;
+    y = INIT_Y;
     col = (int) x / SIZE;
     row = (int) y / SIZE +1;
-  }
-  
-  void display(){
-    fill(100, 0, 180);
-    rect(x, y-SIZE, w, h);
+    img = buildcenterOuter;
   }
   
   void update(){
-    /*
-    if(upState == false && downState == false && leftState == false && rightState== false){
-      direction = (int)random(4);
-    }else{
-      upState = false;
-      downState = false;
-      leftState= false;
-      rightState = false;
+    int d;
+    d = (int)random(4);
+    if(moveTimer == 0){
+        
+      if(d==1){
+        if(!upState){ 
+          upState = true;
+        }else upState = false;
+        
+      }else if(d==2){
+        if(!downState)
+          downState = true;
+        else downState = false;
+      }else if(d==3){
+        if(!leftState)
+          leftState = true;
+        else leftState = false;
+      }else if(d==0){
+        if(!rightState)
+          rightState = true;
+        else rightState = false;
+      }
     }
-    */
-    direction = (int)random(4);
-    switch(direction){
-      case 0:
-        if(upState == false) upState = true;
-        break;
-      case 1:
-        if(downState == false) downState = true;
-        break;
-      case 2:
-        if(leftState == false) leftState = true;
-        break;
-      case 3:
-        if(rightState == false) rightState = true;
-        break;
-    }
+
     move();
+    outerInner();
   }
   
-    void move(){
+  void display(){
+    image(img, x, y, w, h);
+  }
+  
+  void move(){
        if(moveTimer == 0){
         if(upState){
           if(row > 0 && obs[col][row-1] == 0){
-            moveDirection = UP;
+            moveDirection = 'w';
             moveTimer = moveDuration;
           }
         }else if(downState){
           if(row < ROW_COUNT - 1 && obs[col][row+1] == 0){
-            moveDirection = DOWN;
+            moveDirection = 's';
             moveTimer = moveDuration;
           }
         }else if(leftState){
           if(col > 0 && obs[col-1][row] == 0){
-            moveDirection = LEFT;
+            moveDirection = 'a';
             moveTimer = moveDuration;
           }
         }else if(rightState){
           if(col < COL_COUNT - 1 && obs[col+1][row] == 0){
-            moveDirection = RIGHT;
+            moveDirection = 'd';
             moveTimer = moveDuration;
           }
-        }
-      }else{
-        switch(moveDirection){
-          case UP:  img = maiUp;  break;
-          case DOWN:  img = maiDown;  break;
-          case LEFT:  img = maiLeft;  break;
-          case RIGHT:  img = maiRight;  break;
         }
       }
     
@@ -92,7 +86,7 @@ class Assistant{
         
         moveTimer --;
         switch(moveDirection){
-          case UP:
+          case 'w':
             if(moveTimer == 0){
               row --;
               y = SIZE * (row-1);
@@ -100,7 +94,7 @@ class Assistant{
               y = (float(moveTimer) / moveDuration + (row-1) -1) * SIZE;
             }
             break;
-          case DOWN:
+          case 's':
             if(moveTimer == 0){
               row ++;
               y = SIZE * (row-1);
@@ -108,7 +102,7 @@ class Assistant{
               y = (1f - float(moveTimer) / moveDuration + (row-1)) * SIZE;
             }
             break;
-          case LEFT:
+          case 'a':
             if(moveTimer == 0){
               col --;
               x = SIZE * col;
@@ -116,7 +110,7 @@ class Assistant{
               x = (float(moveTimer) / moveDuration + col - 1) * SIZE;
             }
             break;
-          case RIGHT:
+          case 'd':
             if(moveTimer == 0){
               col ++;
               x = SIZE * col;
@@ -127,5 +121,28 @@ class Assistant{
         }
         
       }
+      
+      
   }
+  
+  void outerInner(){
+
+    frame --;
+    
+    if(frame == 0){
+      frame = 10;
+      if(imgform == 0){
+        img = buildcenterInner;
+        imgform = 1;
+      }else if(imgform == 1){
+        img = buildcenterOuter;
+        imgform = 0;
+      }
+      
+    }
+  }
+  
+
+  
+  
 }
