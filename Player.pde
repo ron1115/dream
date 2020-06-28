@@ -1,8 +1,7 @@
 class Player{
-  float x, y;
-  float w = SIZE;
-  float h = SIZE*2;
+  float x, y, w = SIZE, h = SIZE*2;
   final float INIT_X = 6*SIZE, INIT_Y = 10*SIZE;
+  final float INIT_X2 = 16*SIZE, INIT_Y2 = 12*SIZE;
   int col, row;
   PImage img;
   
@@ -102,6 +101,24 @@ class Player{
         }
         
       }
+  }
+  
+  void hurt(Assistant assistant){
+    if(isHit(player.x, player.y+SIZE, player.w, player.h-SIZE, assistant.x, assistant.y+SIZE, assistant.w, assistant.h-SIZE)){
+      if(game2Jump){
+        x = INIT_X;
+        y = INIT_Y;
+        col = (int) x / SIZE;
+        row = (int) y / SIZE +1;
+        img = maiDown;
+      }else{
+        x = INIT_X2;
+        y = INIT_Y2;
+        col = (int) x / SIZE;
+        row = (int) y / SIZE +1;
+        img = maiDown; 
+      }
+    }
   }
   
 

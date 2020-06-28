@@ -12,7 +12,7 @@ class Model{
   }
   
   void display(float get){
-    float a = map(get, 0, 255, 255, 0);
+    float a = map(get, 0, score.totalScore, 255, 0);
     image(img1, x, y, 549, 439);
     pushStyle();
     tint(255,255,255,a); //255~0

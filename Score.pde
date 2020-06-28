@@ -5,21 +5,29 @@ class Score{
   float yTop;
   float yButtom;
   float yMove;
-  float BLOCK = 50;
+  float SIZE = 50;
   final int totalScore = 255;
   
   Score(){
-    xTop = width-BLOCK;
-    xButtom = xTop+BLOCK/2;
-    yTop = BLOCK*4;
+    xTop = width-SIZE;
+    xButtom = xTop+SIZE/2;
+    yTop = SIZE*4;
     yButtom = yTop+totalScore;
     yMove = yButtom;
   }
   
   void display(float get){
-
-    yMove = -get+yButtom;
     
+    if(yMove <= yTop){ //top limit
+      yMove = yTop;
+      gameState = GAME_WIN;
+    }
+    else if(yMove > yButtom){ // buttom limit
+      gameState = GAME_LOSE03; return;
+    }
+    else{
+      yMove = -get+yButtom;
+    }
     stroke(255);
     fill(255,0,0);
     rectMode(CORNERS);
